@@ -33,7 +33,7 @@ resource eventSubscription 'Microsoft.EventGrid/systemTopics/eventSubscriptions@
         resourceId: ehresourceid
       }
     }
-    filter: {
+    filter: {      
       includedEventTypes: [
         'Microsoft.Storage.BlobCreated'
       ]

@@ -22,21 +22,33 @@ param partitioncount int
 @description('Event Hub capacity unit')
 param ehcapacity int
 
+@description('Event Hub retention days')
+param retentiondays int
+
 resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: '${desc}-rg'
   location: location
 }
 
-module eventhub './resources/eh.bicep' = {
-  name: '${rg.name}-eventhub'
+module eventhubnamespace './resources/ehnamespace.bicep' = {
+  name: '${rg.name}-eventhubns'
   scope: rg
   params: {
     ehtier: eventhubtier
     ehnamenamespace: '${toLower(desc)}ehnamespace'
     location: rg.location
-    ehname: '${toLower(desc)}eh'
     ehcapacity: ehcapacity
+  }
+}
+
+module eventhub './resources/eh.bicep' = {
+  name: '${rg.name}-eventhub'
+  scope: rg
+  params: {    
+    ehname: '${toLower(desc)}eh'
+    ehnamespacename: eventhubnamespace.outputs.eventhubnamesoacename
     partitioncount: partitioncount
+    retentiondays: retentiondays
   }
 }
 

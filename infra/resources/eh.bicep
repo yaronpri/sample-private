@@ -1,40 +1,27 @@
-@description('Event Hub namespace name')
-param ehnamenamespace string
-
-@description('Event Hub namespace name')
-param ehtier string
-
-@description('Event Hub name')
+@description('Event Hub Name')
 param ehname string
 
-@description('Event Hub partition count')
+@description('Event Hub Namespace Name')
+param ehnamespacename string
+
+
+@description('Event partition count')
+@minValue(1)
+@maxValue(100)
 param partitioncount int
 
-@description('Event Hub capacity unit')
-param ehcapacity int
+@description('Event Hub retention days')
+param retentiondays int
 
-@description('Azure region for resources')
-param location string = resourceGroup().location
-
-resource eventHubNamespace 'Microsoft.EventHub/namespaces@2021-11-01' = {
-  name: ehnamenamespace
-  location: location
-  sku: {
-    name: ehtier
-    tier:ehtier
-    capacity: ehcapacity
-  }
-  properties: {
-    isAutoInflateEnabled: false
-    maximumThroughputUnits: 0
-  }
+resource eventhubnamespace 'Microsoft.EventHub/namespaces@2021-11-01' existing = {
+  name: ehnamespacename
 }
 
-resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' = {
-  parent: eventHubNamespace
+resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' = {   
+  parent: eventhubnamespace
   name: ehname
   properties: {
-    messageRetentionInDays: 7
+    messageRetentionInDays: retentiondays
     partitionCount: partitioncount
   }
 }

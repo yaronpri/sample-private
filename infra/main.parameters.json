@@ -12,7 +12,10 @@
       "value": 32
     },
     "ehcapacity": {
-      "value": "1"
+      "value": 1
+    },
+    "retentiondays": {
+      "value": 7
     },
     "containernames": {
       "value": ["files"]
