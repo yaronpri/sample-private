@@ -3,7 +3,7 @@ targetScope = 'subscription'
 @minLength(1)
 @maxLength(16)
 @description('Prefix for all resources, i.e. {name}storage')
-param desc string
+param prefix string
 
 @minLength(1)
 @description('Containers to create')
@@ -16,63 +16,58 @@ param location string = deployment().location
 @description('Event Hub namespace tier')
 param eventhubtier string
 
-@description('Event Hub partition count')
-param partitioncount int
-
 @description('Event Hub capacity unit')
 param ehcapacity int
+
+@description('Event Hub maximum throughput units')
+param maximumthroughputunits int
+
+@description('Event Hub partition count')
+param partitioncount int
 
 @description('Event Hub retention days')
 param retentiondays int
 
+/* RESOURCE GROUP */
 resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
-  name: '${desc}-rg'
+  name: '${prefix}-rg'
   location: location
 }
 
+/* EVENT HUB NAMESPACE */
 module eventhubnamespace './resources/ehnamespace.bicep' = {
   name: '${rg.name}-eventhubns'
   scope: rg
   params: {
     ehtier: eventhubtier
-    ehnamenamespace: '${toLower(desc)}ehnamespace'
+    ehnamenamespace: '${toLower(prefix)}-eh-namespace'
     location: rg.location
     ehcapacity: ehcapacity
+    maximumthroughputunits: maximumthroughputunits
   }
 }
 
-module eventhub './resources/eh.bicep' = {
-  name: '${rg.name}-eventhub'
-  scope: rg
-  params: {    
-    ehname: '${toLower(desc)}eh'
-    ehnamespacename: eventhubnamespace.outputs.eventhubnamesoacename
-    partitioncount: partitioncount
-    retentiondays: retentiondays
-  }
-}
+/* Create EVENT HUB && EVENT GRID && STORAGE for each step */
+var stepsnames = ['step1', 'step2', 'step3']
 
-module storage './resources/storage.bicep' = {
-  name: '${rg.name}-storage'
+module steps './step.bicep' = [for stepname in stepsnames: { 
+  name: '${rg.name}-steps-${stepname}'
   scope: rg
   params: {
-    name: '${toLower(desc)}step1'
-    location: rg.location
-    containersarray: containernames
+    retentiondays: retentiondays
+    rgname: rg.name
+    location: location
+    stepname: stepname
+    ehnamespacename: eventhubnamespace.outputs.eventhubnamespacename
+    containernames: [
+      stepname
+    ]
+    partitioncount: partitioncount
+    prefix: prefix
   }
-}
+}]
 
-module eventgrid './resources/eg.bicep' = {
-  name: '${rg.name}-eventgrid'
-  scope: rg
-  params: {    
-    systemtopicname: '${toLower(desc)}egstep1topic'
-    eventsubname: '${toLower(desc)}egstep1sub'
-    ehresourceid: eventhub.outputs.ehresourceid
-    location: rg.location
-    linkstorageresourceid: storage.outputs.storageResourceId
-  }
-}
-
-output resource_group_name string = rg.name
-output storage_account_name string = storage.outputs.storageAccountName
+output deployedsteps array = [for (name, i) in stepsnames: {
+  stepname: name
+  //sastoken: steps[i].outputs.storage_sas_key
+}]

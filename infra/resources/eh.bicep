@@ -4,7 +4,6 @@ param ehname string
 @description('Event Hub Namespace Name')
 param ehnamespacename string
 
-
 @description('Event partition count')
 @minValue(1)
 @maxValue(100)

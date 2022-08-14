@@ -7,6 +7,9 @@ param ehtier string
 @description('Event Hub capacity unit')
 param ehcapacity int
 
+@description('Event Hub throughput unit')
+param maximumthroughputunits int
+
 @description('Azure region for resources')
 param location string = resourceGroup().location
 
@@ -20,9 +23,9 @@ resource eventHubNamespace 'Microsoft.EventHub/namespaces@2021-11-01' = {
   }
   properties: {
     isAutoInflateEnabled: true
-    maximumThroughputUnits: 5
+    maximumThroughputUnits: maximumthroughputunits
   }
 }
 
 output eventhubnamespceid string = eventHubNamespace.id
-output eventhubnamesoacename string = eventHubNamespace.name
+output eventhubnamespacename string = eventHubNamespace.name
