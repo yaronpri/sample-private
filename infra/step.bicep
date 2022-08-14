@@ -51,25 +51,16 @@ module eventgrid './resources/eg.bicep' = {
   params: {    
     systemtopicname: '${toLower(prefix)}-eg-topic-${stepname}'
     eventsubname: '${toLower(prefix)}-eg-sub-${stepname}'
-    ehresourceid: eventhub.outputs.ehresourceid
+    ehresourceid: eventhub.outputs.eventhubresourceid
     location: location
-    linkstorageresourceid: storage.outputs.storageResourceId
+    linkstorageresourceid: storage.outputs.storageresourceid
   }
 }
 
-/*
-param baseTime string = utcNow('u')
-var signsasenddate = dateTimeAdd(baseTime, 'P1Y')
-
+output storageaccountname string = storage.outputs.storageaccountname
+output storageresourceid string = storage.outputs.storageresourceid
+output eventhubresourceid string = eventhub.outputs.eventhubresourceid
+output eventgridsubscritpionresourceid string = eventgrid.outputs.eventgridsubscritpionresourceid
+output eventgridsystemtopicresourceid string = eventgrid.outputs.eventgridsystemtopicresourceid
 #disable-next-line outputs-should-not-contain-secrets
-output storage_sas_key string = base64(listAccountSAS(storagenamepredefine,'2022-05-01', 
-{
-  signedProtocol: 'https'
-  signedResourceTypes: 'sco'
-  signedPermission: 'rl'
-  signedServices: 'b'
-  signedExpiry: signsasenddate
-}))
-
-output storage_account_name string = storage.outputs.storageAccountName
-*/
+output storagesaskey string = storage.outputs.storagesaskey

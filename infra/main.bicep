@@ -69,5 +69,10 @@ module steps './step.bicep' = [for stepname in stepsnames: {
 
 output deployedsteps array = [for (name, i) in stepsnames: {
   stepname: name
-  //sastoken: steps[i].outputs.storage_sas_key
+  sastoken: steps[i].outputs.storagesaskey
+  storageresourceid: steps[i].outputs.storageresourceid
+  storageaccountname: steps[i].outputs.storageaccountname
+  eventhubresourceid: steps[i].outputs.eventhubresourceid
+  eventgridsystemtopicresourceid: steps[i].outputs.eventgridsystemtopicresourceid
+  eventgridsubscritpionresourceid: steps[i].outputs.eventgridsubscritpionresourceid  
 }]

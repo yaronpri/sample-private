@@ -7,6 +7,9 @@ param containersarray array
 @description('Azure region for resources')
 param location string = resourceGroup().location
 
+param baseTime string = utcNow('u')
+var signsasenddate = dateTimeAdd(baseTime, 'P1Y')
+
 resource storageappdata 'Microsoft.Storage/storageAccounts@2021-09-01' = {
   name: name
   location: location
@@ -25,5 +28,14 @@ resource containers 'Microsoft.Storage/storageAccounts/blobServices/containers@2
   name: '${storageappdata.name}/default/${cname}'
 }]
 
-output storageAccountName string = storageappdata.name
-output storageResourceId string = storageappdata.id
+output storageaccountname string = storageappdata.name
+output storageresourceid string = storageappdata.id
+#disable-next-line outputs-should-not-contain-secrets
+output storagesaskey string = storageappdata.listAccountSas('2022-05-01', 
+{
+  signedProtocol: 'https'
+  signedResourceTypes: 'sco'
+  signedPermission: 'rl'
+  signedServices: 'b'
+  signedExpiry: signsasenddate
+}).accountSasToken

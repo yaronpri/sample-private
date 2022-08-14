@@ -40,3 +40,6 @@ resource eventSubscription 'Microsoft.EventGrid/systemTopics/eventSubscriptions@
     }
   }
 }
+
+output eventgridsystemtopicresourceid string = systemTopic.id
+output eventgridsubscritpionresourceid string = eventSubscription.id
