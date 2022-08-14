@@ -20,6 +20,12 @@
     "maximumthroughputunits": {
       "value": 5
     },
+    "ehnsprimarykeysecretname": {
+      "value": "ehnsprimarykey"
+    },
+    "ehnsconnectionstringsecretname": {
+      "value": "ehnsconectionstring"
+    },        
     "containernames": {
       "value": ["files"]
     }    

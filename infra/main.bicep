@@ -28,10 +28,46 @@ param partitioncount int
 @description('Event Hub retention days')
 param retentiondays int
 
+@description('EventHub primarykey secret name in keyvault')
+param ehnsprimarykeysecretname string
+
+@description('EventHub connection string secret name in keyvault')
+param ehnsconnectionstringsecretname string
+
+@description('Your AzureAD Object Id')
+param userObjectId string
+
 /* RESOURCE GROUP */
 resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: '${prefix}-rg'
   location: location
+}
+
+/* USER MANAGED IDENTITY */
+module identity 'resources/managedidentity.bicep' = {
+  name: '${rg.name}-identity'
+  scope: rg
+  params: {
+    location: location
+    managedIdentityName: toLower(prefix)
+  }
+}
+
+/* KEY VAULT */
+module keyvault 'resources/kv.bicep' = {
+  name: '${rg.name}-keyvault'
+  scope: rg
+  params: {
+    kvname: '${toLower(prefix)}-keyvault'
+    skuName: 'standard'
+    location: location
+    enabledfordeployment: false
+    enabledfordiskencryption: false
+    enabledfortemplatedeployment: false
+    enableSoftDelete: false
+    userObjId: userObjectId
+    manageidObjId: identity.outputs.managedIdentityPrincipalId 
+  }
 }
 
 /* EVENT HUB NAMESPACE */
@@ -44,10 +80,13 @@ module eventhubnamespace './resources/ehnamespace.bicep' = {
     location: rg.location
     ehcapacity: ehcapacity
     maximumthroughputunits: maximumthroughputunits
-  }
+    kvname: keyvault.outputs.keyvaultname
+    ehnsconnectionstringsecretname: ehnsconnectionstringsecretname
+    ehnsprimarykeysecretname: ehnsprimarykeysecretname
+  }  
 }
 
-/* Create EVENT HUB && EVENT GRID && STORAGE for each step */
+/*  EVENT HUB && EVENT GRID && STORAGE for each step */
 var stepsnames = ['step1', 'step2', 'step3']
 
 module steps './step.bicep' = [for stepname in stepsnames: { 
