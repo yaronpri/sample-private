@@ -26,3 +26,4 @@ resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' = {
 }
 
 output eventhubresourceid string = eventHub.id
+output eventhubname string = eventHub.name

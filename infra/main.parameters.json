@@ -26,6 +26,15 @@
     "ehnsconnectionstringsecretname": {
       "value": "ehnsconectionstring"
     },        
+    "storageprimarykeysecretnameprefix": {
+      "value": "storageprimarykey"
+    },
+    "storageconnectionstringsecretnameprefix": {
+      "value": "storageconnectionstring"
+    },
+    "storagesassecretnameprefix": {
+      "value": "storagesas"
+    },
     "containernames": {
       "value": ["files"]
     }    

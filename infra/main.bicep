@@ -34,6 +34,15 @@ param ehnsprimarykeysecretname string
 @description('EventHub connection string secret name in keyvault')
 param ehnsconnectionstringsecretname string
 
+@description('Storage primarykey secret name in keyvault')
+param storageprimarykeysecretnameprefix string
+
+@description('Storage connection string secret name in keyvault')
+param storageconnectionstringsecretnameprefix string
+
+@description('Storage SAS secret name in keyvault')
+param storagesassecretnameprefix string
+
 @description('Your AzureAD Object Id')
 param userObjectId string
 
@@ -103,15 +112,46 @@ module steps './step.bicep' = [for stepname in stepsnames: {
     ]
     partitioncount: partitioncount
     prefix: prefix
+    kvname: keyvault.outputs.keyvaultname
+    storageconnectionstringsecretname: '${storageconnectionstringsecretnameprefix}-${stepname}'
+    storageprimarykeysecretname: '${storageprimarykeysecretnameprefix}-${stepname}'
+    storagesassecretname: '${storagesassecretnameprefix}-${stepname}'
   }
 }]
 
+/* CHECKPOINT STORAGE */
+module checkpointstorage './resources/storage.bicep' = {
+  name: '${rg.name}-storage-checkpoint'
+  scope: rg
+  params: {
+    name: '${prefix}checkpoint'
+    location: location
+    containersarray: stepsnames
+    kvname: keyvault.outputs.keyvaultname
+    storageconnectionstringsecretname: '${storageconnectionstringsecretnameprefix}-checkpoint'
+    storageprimarykeysecretname: '${storageprimarykeysecretnameprefix}-checkpoint'
+    storagesassecretname: '${storagesassecretnameprefix}-checkpoint'
+  }
+}
+
 output deployedsteps array = [for (name, i) in stepsnames: {
   stepname: name
-  sastoken: steps[i].outputs.storagesaskey
   storageresourceid: steps[i].outputs.storageresourceid
   storageaccountname: steps[i].outputs.storageaccountname
   eventhubresourceid: steps[i].outputs.eventhubresourceid
+  eventhubname: steps[i].outputs.eventhubname
   eventgridsystemtopicresourceid: steps[i].outputs.eventgridsystemtopicresourceid
-  eventgridsubscritpionresourceid: steps[i].outputs.eventgridsubscritpionresourceid  
+  eventgridsystemtopicname: steps[i].outputs.eventgridsystemtopicname
+  eventgridsubscritpionresourceid: steps[i].outputs.eventgridsubscritpionresourceid
+  eventgridsubscritpionname: steps[i].outputs.eventgridsubscritpionname
 }]
+output storagecheckpointresourceid string = checkpointstorage.outputs.storageresourceid
+output storagecheckpointaccountname string = checkpointstorage.outputs.storageaccountname
+output kevvaultname string = keyvault.outputs.keyvaultname
+output kevvaultresourceid string = keyvault.outputs.keyvaultresourceid
+output eventhubnamespacename string = eventhubnamespace.outputs.eventhubnamespacename
+output eventhubnamespaceresourceid string = eventhubnamespace.outputs.eventhubnamespceid
+output managedidentityprincipalid string = identity.outputs.managedIdentityPrincipalId
+output managedidentityclientid string = identity.outputs.managedIdentityClientId
+output managedidentityresourceid string = identity.outputs.managedIdentityResourceId
+
