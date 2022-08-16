@@ -37,6 +37,8 @@ param storageconnectionstringsecretname string
 @description('Storage SAS secret name in keyvault')
 param storagesassecretname string
 
+@description('Managed identity object id')
+param manageidObjId string
 
 module eventhub './resources/eh.bicep' = {
   name: '${rgname}-eventhub-${stepname}'
@@ -60,6 +62,7 @@ module storage './resources/storage.bicep' = {
     storageconnectionstringsecretname: storageconnectionstringsecretname
     storageprimarykeysecretname: storageprimarykeysecretname
     storagesassecretname: storagesassecretname
+    manageidObjId: manageidObjId
   }
 }
 

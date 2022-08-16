@@ -58,7 +58,7 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
 }
 
 var kvsecretUser = '4633458b-17de-408a-b874-0445c86b69e6'
-resource SecretUserAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+resource SecretUserAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(kvsecretUser, manageidObjId, kv.id)
   scope: kv
   properties: {

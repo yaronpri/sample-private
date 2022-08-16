@@ -19,6 +19,9 @@ param storageconnectionstringsecretname string
 @description('Storage SAS secret name in keyvault')
 param storagesassecretname string
 
+@description('Managed identity object id')
+param manageidObjId string
+
 param baseTime string = utcNow('u')
 
 
@@ -37,6 +40,7 @@ resource storage 'Microsoft.Storage/storageAccounts@2021-09-01' = {
     accessTier: 'Hot'
     allowBlobPublicAccess: true
     supportsHttpsTrafficOnly: true
+
   }
 }
 
@@ -81,6 +85,19 @@ resource secretsas 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
     value: storagesaskey
   }
 }
+
+
+var storageDataOwner = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'
+resource SecretUserAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storageDataOwner, manageidObjId, storage.id)
+  scope: storage
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', storageDataOwner)
+    principalId: manageidObjId
+    principalType: 'ServicePrincipal'
+  }
+}
+
 
 output storageaccountname string = storage.name
 output storageresourceid string = storage.id

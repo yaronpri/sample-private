@@ -92,6 +92,7 @@ module eventhubnamespace './resources/ehnamespace.bicep' = {
     kvname: keyvault.outputs.keyvaultname
     ehnsconnectionstringsecretname: ehnsconnectionstringsecretname
     ehnsprimarykeysecretname: ehnsprimarykeysecretname
+    manageidObjId: identity.outputs.managedIdentityPrincipalId
   }  
 }
 
@@ -116,6 +117,7 @@ module steps './step.bicep' = [for stepname in stepsnames: {
     storageconnectionstringsecretname: '${storageconnectionstringsecretnameprefix}-${stepname}'
     storageprimarykeysecretname: '${storageprimarykeysecretnameprefix}-${stepname}'
     storagesassecretname: '${storagesassecretnameprefix}-${stepname}'
+    manageidObjId: identity.outputs.managedIdentityPrincipalId 
   }
 }]
 
@@ -131,10 +133,11 @@ module checkpointstorage './resources/storage.bicep' = {
     storageconnectionstringsecretname: '${storageconnectionstringsecretnameprefix}-checkpoint'
     storageprimarykeysecretname: '${storageprimarykeysecretnameprefix}-checkpoint'
     storagesassecretname: '${storagesassecretnameprefix}-checkpoint'
+    manageidObjId: identity.outputs.managedIdentityPrincipalId 
   }
 }
 
-output deployedsteps array = [for (name, i) in stepsnames: {
+output pipelinesteps array = [for (name, i) in stepsnames: {
   stepname: name
   storageresourceid: steps[i].outputs.storageresourceid
   storageaccountname: steps[i].outputs.storageaccountname
