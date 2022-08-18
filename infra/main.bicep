@@ -13,6 +13,12 @@ param containernames array
 @description('Primary location for all resources')
 param location string = deployment().location
 
+@description('ACR username secret name in keyvault')
+param acradminusernamesecretname string
+
+@description('ACR password secret name in keyvault')
+param acrpasswordsecretname string
+
 @description('Event Hub namespace tier')
 param eventhubtier string
 
@@ -76,6 +82,45 @@ module keyvault 'resources/kv.bicep' = {
     enableSoftDelete: false
     userObjId: userObjectId
     manageidObjId: identity.outputs.managedIdentityPrincipalId 
+  }
+}
+
+/* LOG ANALYTIC WORKSPACE */
+module loganalytic 'resources/loganalytic.bicep' = {
+  name: '${rg.name}-loganalytic'
+  scope: rg
+  params: {
+    workspaceName: '${toLower(prefix)}-loganalytic-ws'
+    location: location
+    newResourcePermissions: true
+    manageidObjId: identity.outputs.managedIdentityPrincipalId 
+  }
+}
+
+/* APPLICATION INSIGHTS */
+module applicationinsights 'resources/appInsights.bicep' = {
+  name: '${rg.name}-applicationinsights'
+  scope: rg
+  params: {
+    appInsightsName: '${toLower(prefix)}-applicationinsights'    
+    location: location
+    loganalyticWorkspaceResourceId: loganalytic.outputs.loganalyticworkspaceresourceid
+    manageidObjId: identity.outputs.managedIdentityPrincipalId 
+  }
+}
+
+/* AZURE CONTAINER REGISTRY */
+module acr 'resources/acr.bicep' = {
+  name: '${rg.name}-acr'
+  scope: rg
+  params: {
+    acrName: '${toLower(prefix)}acr'
+    acrSku: 'Basic'
+    location: location
+    manageidObjId: identity.outputs.managedIdentityPrincipalId 
+    kvname: keyvault.outputs.keyvaultname
+    acradminusernamesecretname: acradminusernamesecretname
+    acrpasswordsecretname: acrpasswordsecretname
   }
 }
 
@@ -157,4 +202,10 @@ output eventhubnamespaceresourceid string = eventhubnamespace.outputs.eventhubna
 output managedidentityprincipalid string = identity.outputs.managedIdentityPrincipalId
 output managedidentityclientid string = identity.outputs.managedIdentityClientId
 output managedidentityresourceid string = identity.outputs.managedIdentityResourceId
+output acrname string = acr.outputs.acrname
+output acrresourceid string = acr.outputs.acrresourceid
+output loganalyticworkspacename string = loganalytic.outputs.loganalyticworkspacename
+output loganalyticworkspaceresourceid string = loganalytic.outputs.loganalyticworkspaceresourceid
+output applicationinsightsName string = applicationinsights.outputs.applicationinsightName
+output applicaitoninsightsresourceid string = applicationinsights.outputs.applicatioinsightResourceId
 

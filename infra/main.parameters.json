@@ -20,6 +20,12 @@
     "maximumthroughputunits": {
       "value": 5
     },
+    "acradminusernamesecretname": {
+      "value": "acradminusername"
+    },
+    "acrpasswordsecretname": {
+      "value": "acradminpassword"
+    },
     "ehnsprimarykeysecretname": {
       "value": "ehnsprimarykey"
     },

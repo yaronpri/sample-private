@@ -58,7 +58,7 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
 }
 
 var kvsecretUser = '4633458b-17de-408a-b874-0445c86b69e6'
-resource SecretUserAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+resource secretUserAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(kvsecretUser, manageidObjId, kv.id)
   scope: kv
   properties: {
@@ -67,7 +67,6 @@ resource SecretUserAssignment 'Microsoft.Authorization/roleAssignments@2022-04-0
     principalType: 'ServicePrincipal'
   }
 }
-
 
 var kvadminRole = '00482a5a-887f-4fb3-b363-3b7fe8e74483'
 resource adminAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
@@ -79,7 +78,6 @@ resource adminAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = 
     principalType: 'User'
   }
 }
-
 
 var kvownerRole = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635'
 resource ownerAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {

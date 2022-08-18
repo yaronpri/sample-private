@@ -65,7 +65,7 @@ resource secretehnsconnectionstring 'Microsoft.KeyVault/vaults/secrets@2022-07-0
 }
 
 var ehnsDataOwner = 'f526a384-b230-433a-b45c-95f59c4a2dec'
-resource SecretUserAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+resource eventHubNamespaceAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(ehnsDataOwner, manageidObjId, eventHubNamespace.id)
   scope: eventHubNamespace
   properties: {

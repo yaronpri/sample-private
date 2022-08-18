@@ -88,7 +88,7 @@ resource secretsas 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
 
 
 var storageDataOwner = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'
-resource SecretUserAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+resource storageDataOwnerAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(storageDataOwner, manageidObjId, storage.id)
   scope: storage
   properties: {
