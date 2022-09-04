@@ -1,7 +1,5 @@
-
 @description('Azure KeyVault Name')
 param kvname string
-
 
 @description('Azure region for resources')
 param location string = resourceGroup().location
@@ -34,7 +32,6 @@ param manageidObjId string
 @description('Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. Get it by using Get-AzSubscription cmdlet.')
 param tenantId string = subscription().tenantId
 
-
 resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {  
   name: kvname
   location: location
@@ -45,7 +42,6 @@ resource kv 'Microsoft.KeyVault/vaults@2022-07-01' = {
     enableSoftDelete: enableSoftDelete
     enableRbacAuthorization: true
     tenantId: tenantId
-
     sku: {
       name: skuName
       family: 'A'

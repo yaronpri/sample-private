@@ -52,6 +52,10 @@ param storagesassecretnameprefix string
 @description('Your AzureAD Object Id')
 param userObjectId string
 
+@description('SSH Public Key')
+//@secure()
+param sshpublickey string
+
 /* RESOURCE GROUP */
 resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: '${prefix}-rg'
@@ -182,6 +186,19 @@ module checkpointstorage './resources/storage.bicep' = {
   }
 }
 
+module aks 'resources/aks.bicep' = {
+  name: '${rg.name}-aks'
+  scope: rg
+  params: {
+    clusterName: '${prefix}aks'
+    location: location
+    clusterDNSPrefix: '${prefix}aks'    
+    logAnalyticId: loganalytic.outputs.loganalyticworkspaceresourceid
+    sshPubKey: sshpublickey
+    managedIdentityName: identity.outputs.managedIdentityName
+  }
+}
+
 output pipelinesteps array = [for (name, i) in stepsnames: {
   stepname: name
   storageresourceid: steps[i].outputs.storageresourceid
@@ -202,10 +219,14 @@ output eventhubnamespaceresourceid string = eventhubnamespace.outputs.eventhubna
 output managedidentityprincipalid string = identity.outputs.managedIdentityPrincipalId
 output managedidentityclientid string = identity.outputs.managedIdentityClientId
 output managedidentityresourceid string = identity.outputs.managedIdentityResourceId
+output managedidentityname string = identity.outputs.managedIdentityName
 output acrname string = acr.outputs.acrname
 output acrresourceid string = acr.outputs.acrresourceid
 output loganalyticworkspacename string = loganalytic.outputs.loganalyticworkspacename
 output loganalyticworkspaceresourceid string = loganalytic.outputs.loganalyticworkspaceresourceid
 output applicationinsightsName string = applicationinsights.outputs.applicationinsightName
 output applicaitoninsightsresourceid string = applicationinsights.outputs.applicatioinsightResourceId
+output aksclusterfqdn string = aks.outputs.aksclusterfqdn
+output aksresourceid string = aks.outputs.aksresourceid
+output aksresourcename string = aks.outputs.aksresourcename
 
