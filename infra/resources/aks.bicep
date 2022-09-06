@@ -44,6 +44,28 @@ resource akscluster 'Microsoft.ContainerService/managedClusters@2022-05-02-previ
         osType: 'Linux'
         mode: 'System'
       }
+      {
+        name: 'simulator'
+        osDiskSizeGB: 30
+        count: 1
+        vmSize: 'Standard_F4s_v2'
+        osType: 'Linux'
+        mode: 'User'
+        nodeLabels:{
+          type: 'simulator'
+        }
+      }
+      {
+        name: 'application'
+        osDiskSizeGB: 30
+        count: 1
+        vmSize: 'Standard_F4s_v2'
+        osType: 'Linux'
+        mode: 'User'
+        nodeLabels: {
+          type: 'application'
+        }
+      }
     ]
     linuxProfile: {
       adminUsername: adminusername
@@ -54,6 +76,14 @@ resource akscluster 'Microsoft.ContainerService/managedClusters@2022-05-02-previ
           }
         ]
       }
+    }
+    addonProfiles: {
+      omsagent:{
+        enabled: true
+        config: {
+          logAnalyticsWorkspaceResourceID : logAnalyticId
+        }
+      }        
     }
   }
 }
