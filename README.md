@@ -1,6 +1,6 @@
 # sample-eventer-private
 
-## IaC deployment using Bicep (Bash)
+## Pre-requisite 
 Before starting deployment process, execute the following steps in order to use these output as input for the deployment step:
    - Generate ssh key, example for mac: 
    ```
@@ -9,6 +9,7 @@ Before starting deployment process, execute the following steps in order to use 
    - Retrieve the Azure AD User - object id - which will get a full access to Azure KeyVault which created during the deployment process, you can get it via portal
 
 
+## IaC deployment using Bicep (Bash)
 ``` 
 region="westeurope"
 deploymentName="sample" 
