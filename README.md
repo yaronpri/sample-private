@@ -1,6 +1,13 @@
 # sample-eventer-private
 
-## Setup Azure Components using Bicep (Bash)
+## IaC deployment using Bicep (Bash)
+Before starting deployment process, execute the following steps in order to use these output as input for the deployment step:
+   - Generate ssh key, example for mac: 
+   ```
+   ssh-keygen -t rsa -m PEM
+   ```
+   - Retrieve the Azure AD User - object id - which will get a full access to Azure KeyVault which created during the deployment process, you can get it via portal
+
 
 ``` 
 region="westeurope"

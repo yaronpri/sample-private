@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Samples.Azure.Eventer.ServiceGenerator": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "APPINSIGHTS_INSTRUMENTATIONKEY": "1ff698fa-87ed-4287-b822-2fb702091b95"
+      }
+    }
+  }
+}

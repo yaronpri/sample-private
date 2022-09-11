@@ -72,8 +72,8 @@ var storagesaskey = storage.listAccountSas('2022-05-01',
 {
   signedProtocol: 'https'
   signedResourceTypes: 'sco'
-  signedPermission: 'rl'
-  signedServices: 'b'
+  signedPermission: 'rwdlacupiytfx'
+  signedServices: 'bfqt'
   signedExpiry: signsasenddate
 }).accountSasToken
 
@@ -101,3 +101,4 @@ resource storageDataOwnerAssignment 'Microsoft.Authorization/roleAssignments@202
 
 output storageaccountname string = storage.name
 output storageresourceid string = storage.id
+output storagebloburi string = storage.properties.primaryEndpoints.blob

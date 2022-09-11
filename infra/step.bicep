@@ -79,6 +79,7 @@ module eventgrid './resources/eg.bicep' = {
 
 output storageaccountname string = storage.outputs.storageaccountname
 output storageresourceid string = storage.outputs.storageresourceid
+output storagebloburi string = storage.outputs.storagebloburi
 output eventhubresourceid string = eventhub.outputs.eventhubresourceid
 output eventhubname string = eventhub.outputs.eventhubname
 output eventgridsubscritpionresourceid string = eventgrid.outputs.eventgridsubscritpionresourceid

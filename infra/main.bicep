@@ -203,6 +203,7 @@ output pipelinesteps array = [for (name, i) in stepsnames: {
   stepname: name
   storageresourceid: steps[i].outputs.storageresourceid
   storageaccountname: steps[i].outputs.storageaccountname
+  storagebloburi: steps[i].outputs.storagebloburi
   eventhubresourceid: steps[i].outputs.eventhubresourceid
   eventhubname: steps[i].outputs.eventhubname
   eventgridsystemtopicresourceid: steps[i].outputs.eventgridsystemtopicresourceid
