@@ -18,7 +18,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   properties: {
     Application_Type: 'other'
     DisableIpMasking: false
-    DisableLocalAuth: true
+    DisableLocalAuth: false
     Flow_Type: 'Bluefield'
     ForceCustomerStorageForProfiler: false
     IngestionMode: 'LogAnalytics'
