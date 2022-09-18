@@ -72,8 +72,8 @@ var storagesaskey = storage.listAccountSas('2022-05-01',
 {
   signedProtocol: 'https'
   signedResourceTypes: 'sco'
-  signedPermission: 'rwdlacupiytfx'
-  signedServices: 'bfqt'
+  signedPermission: 'rwdlacup'
+  signedServices: 'b'
   signedExpiry: signsasenddate
 }).accountSasToken
 

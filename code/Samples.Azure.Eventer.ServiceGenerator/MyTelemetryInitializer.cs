@@ -6,7 +6,7 @@ namespace Samples.Azure.Eventer.ServiceGenerator
 {
     public class MyTelemetryInitializer : ITelemetryInitializer
     {
-        public const string ROLE_NAME = "ServiceGenerator";
+        public const string ROLE_NAME = "SimulatorService";
         public void Initialize(ITelemetry telemetry)
         {
             if (string.IsNullOrEmpty(telemetry.Context.Cloud.RoleName))

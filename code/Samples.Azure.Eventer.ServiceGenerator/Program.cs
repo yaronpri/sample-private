@@ -32,17 +32,15 @@ namespace Samples.Azure.Eventer.ServiceGenerator
                     services.AddHostedService<GeneratorWorker>();
                     if (string.IsNullOrEmpty(env) == false)
                     {
-                        services.AddApplicationInsightsTelemetryWorkerService();
-                        services.AddSingleton<ITelemetryInitializer, MyTelemetryInitializer>();
-
-                        var aiOptions = new Microsoft.ApplicationInsights.WorkerService.ApplicationInsightsServiceOptions();
-                        aiOptions.EnableAdaptiveSampling = false;
-                        aiOptions.EnableDependencyTrackingTelemetryModule = false;
-                        aiOptions.EnableQuickPulseMetricStream = false;
-                        aiOptions.EnablePerformanceCounterCollectionModule = false;
+                        var aiOptions = new Microsoft.ApplicationInsights.WorkerService.ApplicationInsightsServiceOptions
+                        {
+                            EnableAdaptiveSampling = false,
+                            EnableDependencyTrackingTelemetryModule = false,
+                            EnableQuickPulseMetricStream = false,
+                            EnablePerformanceCounterCollectionModule = false
+                        };
                         services.AddApplicationInsightsTelemetryWorkerService(aiOptions);
-                        
-                             
+                        services.AddSingleton<ITelemetryInitializer, MyTelemetryInitializer>();
                     }
                 });
         }
