@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+    paths: 'code/Samples.Azure.Eventer.ServiceGenerator/**' 
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Docker Login
+      uses: docker/login-action@v1.6.0
+      with:
+        username: yaronpr
+        password: ${{ secrets.DOCKERHUB }}      
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build ./code/Samples.Azure.Eventer.ServiceGenerator/ --file code/Samples.Azure.Eventer.ServiceGenerator/Dockerfile --tag yaronpr/samples-private-service-generator:latest
+    - name: Push the Docker image
+      run: docker push yaronpr/samples-private-service-generator:latest
