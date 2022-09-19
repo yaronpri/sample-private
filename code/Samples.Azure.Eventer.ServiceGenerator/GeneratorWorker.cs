@@ -75,7 +75,7 @@ namespace Samples.Azure.Eventer.ServiceGenerator
             {
                 Logger.LogError("{0} - Error - {1} ", MyTelemetryInitializer.ROLE_NAME, ex.ToString());
             }
-            Logger.LogInformation("{0} stop at: {1}", MyTelemetryInitializer.ROLE_NAME, DateTimeOffset.UtcNow);
+            Logger.LogInformation("{0} end at: {1}", MyTelemetryInitializer.ROLE_NAME, DateTimeOffset.UtcNow);
         }
 
         private async Task SendFiles(BlobContainerClient containerClient, int requestedAmount, int requestedSeconds)
