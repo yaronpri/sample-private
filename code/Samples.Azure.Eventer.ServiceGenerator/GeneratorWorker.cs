@@ -120,7 +120,7 @@ namespace Samples.Azure.Eventer.ServiceGenerator
             }
             using (Logger.BeginScope(new Dictionary<string, object> { ["totalNumOfFiles"] = requestedAmount * requestedSeconds, ["totalTime"] = totalTime.TotalMilliseconds, ["totalAvg"] = (totalTime.TotalMilliseconds / requestedSeconds) }))
             {
-                Logger.LogInformation(MyTelemetryInitializer.ROLE_NAME + " sending - end uploading files at: " + DateTimeOffset.UtcNow + " took: " + DateTime.Now.Subtract(beforeStart).TotalMilliseconds + " ms " + " without delays: " + totalTime.TotalMilliseconds + " ms, avg of " + (totalTime.TotalMilliseconds / requestedSeconds) + " ms to upload " + requestedAmount + " files per 1sec");
+                Logger.LogInformation(MyTelemetryInitializer.ROLE_NAME + " sending, end uploading files at: " + DateTimeOffset.UtcNow + " took: " + DateTime.Now.Subtract(beforeStart).TotalMilliseconds + " ms " + " without delays: " + totalTime.TotalMilliseconds + " ms, avg of " + (totalTime.TotalMilliseconds / requestedSeconds) + " ms to upload " + requestedAmount + " files per 1sec");
             }        
         }
     
