@@ -22,7 +22,7 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build ./code/Samples.Azure.Eventer.ServiceGenerator/ --file code/Samples.Azure.Eventer.ServiceGenerator/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/service-generator:${{ github.sha }}
-        docker tag ${{ secrets.REGISTRY_LOGIN_SERVER }}:/service-generator:${{ github.sha }} ${{ secrets.REGISTRY_LOGIN_SERVER }}:/service-generator:latest
+        docker build ./code/Samples.Azure.Eventer.ServiceGenerator/ --file code/Samples.Azure.Eventer.ServiceGenerator/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/service-generator:latest
     - name: Push the Docker image
       run: |
         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/service-generator:${{ github.sha }}
