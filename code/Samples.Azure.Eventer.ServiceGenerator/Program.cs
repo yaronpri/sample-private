@@ -17,7 +17,7 @@ namespace Samples.Azure.Eventer.ServiceGenerator
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {            
-            var env = Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY");
+            var env = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
