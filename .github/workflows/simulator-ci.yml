@@ -2,8 +2,10 @@ name: Simulation - CI process
 
 on:
   push:
-    branches: [ main ]
-    paths: 'code/Samples.Azure.Eventer.ServiceGenerator/**' 
+    branches: 
+      - main
+    paths: 
+      - 'code/Samples.Azure.Eventer.ServiceGenerator/**' 
 
 jobs:
 
