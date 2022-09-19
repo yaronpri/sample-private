@@ -1,6 +1,11 @@
 name: Simulation - CI process
 
 on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        required: false
+        description: 'Test Manual'
   push:
     branches: 
       - main
