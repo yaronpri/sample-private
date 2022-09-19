@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Simulation - CI process
 
 on:
   push:
