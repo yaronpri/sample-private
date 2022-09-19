@@ -1,4 +1,6 @@
-# sample-eventer-private
+# Sample-eventer-private repo
+
+[![Simulation - CI process](https://github.com/yaronpri/sample-private/actions/workflows/simulator-ci.yml/badge.svg)](https://github.com/yaronpri/sample-private/actions/workflows/simulator-ci.yml)
 
 ## Pre-requisite 
 Before starting deployment process, execute the following steps in order to use these output as input for the deployment step:
