@@ -23,11 +23,11 @@ spec:
           value: "2"
         - name: CONTAINER_NAME
           value: step1
-        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
-          value: "1"
         - name: REQUESTED_REQ_PER_SEC
           value: "1"
         - name: REQUESTED_SIMULATOR_TIME_IN_SEC
           value: "1"
+        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+          value: "ec931919-5abd-4202-a58e-7367823d824c"
       nodeSelector:
         "type": "simulator"

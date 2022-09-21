@@ -61,7 +61,12 @@ jobs:
           container-registry-url: ${{ env.CONTAINER_REGISTRY }}
           container-registry-username: ${{ secrets.CLIENTID }}
           container-registry-password: ${{ secrets.CLIENTSECRET }} 
-        id: create-secret      
+        id: create-secret    
+      - name: Set imagePullSecret
+        uses: azure/k8s-create-secret@v4
+        with:
+          secret-name: 'myappsecrets'          
+          data: 'ZWM5MzE5MTktNWFiZC00MjAyLWE1OGUtNzM2NzgyM2Q4MjRj'          
       - name: Deploy to AKS
         uses: Azure/k8s-deploy@v4
         with:
