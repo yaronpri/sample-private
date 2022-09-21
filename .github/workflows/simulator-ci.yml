@@ -4,7 +4,7 @@ env:
   PROJECT_NAME: 'simulation-generator'
   RESOURCE_GROUP: 'eventerim-rg'
   CLUSTER_NAME: 'eventerimaks'
-  CONTAINER_REGISTRY: 'eventerimacr.azurecr.io'
+  CONTAINER_REGISTRY: 'eventerimacr'
 
 on:
   workflow_dispatch:
@@ -30,12 +30,13 @@ jobs:
         uses: azure/login@v1.4.3
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Azure CLI Action
+      - name: Azure CLI - ACR build
         uses: Azure/cli@v1
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az acr build -t  -t ${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+            az configure --defaults acr=${{ env.CONTAINER_REGISTRY }}
+            az acr build -t  -t ${{ env.CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
       - name: Set AKS context
         id: set-context
         uses: azure/aks-set-context@v3
