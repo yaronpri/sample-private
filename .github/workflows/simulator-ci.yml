@@ -4,7 +4,7 @@ env:
   PROJECT_NAME: 'simulation-generator'
   RESOURCE_GROUP: 'eventerim-rg'
   CLUSTER_NAME: 'eventerimaks'
-  CONTAINER_REGISTRY: 'eventerimacr'
+  CONTAINER_REGISTRY: 'eventerimacr.azurecr.io'
 
 on:
   workflow_dispatch:
@@ -25,18 +25,25 @@ jobs:
     steps:
       - name: Checkout source code 
         uses: actions/checkout@v3
+      - name: Docker Login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.CONTAINER_REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }} 
       - name: Azure login
         id: login
         uses: azure/login@v1.4.3
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Azure CLI - ACR build
-        uses: Azure/cli@v1
-        with:
-          azcliversion: 2.30.0
-          inlineScript: |
-            az configure --defaults acr=${{ env.CONTAINER_REGISTRY }}
-            az acr build -t  -t ${{ env.CONTAINER_REGISTRY }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ github.sha }}
+      - name: Build the Docker image
+        run: |
+          docker build ./code/Samples.Azure.Eventer.ServiceGenerator/ --file code/Samples.Azure.Eventer.ServiceGenerator/Dockerfile --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+          docker build ./code/Samples.Azure.Eventer.ServiceGenerator/ --file code/Samples.Azure.Eventer.ServiceGenerator/Dockerfile --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:latest
+      - name: Push the Docker image
+        run: |
+          docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+          docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:latest
       - name: Set AKS context
         id: set-context
         uses: azure/aks-set-context@v3

@@ -31,7 +31,7 @@ Create a service principal to access your resource group with the Contributor ro
 <RESOURCE_GROUP> with the name of the resource group where your ACR is located
 ```
 az ad sp create-for-rbac \
-    --name "ghActionAzureVote" \
+    --name "ghActionAzureEventerim" \
     --scope /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP> \
     --role Contributor \
     --sdk-auth
