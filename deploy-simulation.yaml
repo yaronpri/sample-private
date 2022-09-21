@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simulation-generator
+  labels:
+    app: simulation-generator
+spec:
+  selector:
+    matchLabels:
+      app: simulation-generator
+  template:
+    metadata:
+      labels:
+        app: simulation-generator
+    spec:
+      containers:
+      - name: simulation-generator
+        image: yaronpr/simulation-generator:latest
+        env:
+        - name: BLOB_UPLOAD_URI
+          value: 3
+        - name: BLOB_UPLOAD_SAS
+          value: 2
+        - name: CONTAINER_NAME
+          value: step1
+        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+          value: 1
+        - name: REQUESTED_REQ_PER_SEC
+          value: 1
+        - name: REQUESTED_SIMULATOR_TIME_IN_SEC
+          value: 1
+      nodeSelector:
+        "type": "simulator"

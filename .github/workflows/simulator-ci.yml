@@ -5,7 +5,9 @@ env:
   RESOURCE_GROUP: 'eventerim-rg'
   CLUSTER_NAME: 'eventerimaks'
   CONTAINER_REGISTRY: 'eventerimacr.azurecr.io'
-
+  REGISTRY_SECRET_NAME: 'eventrim-secret-aks'
+  REGISTRY_SECRET_ID: 'eventrim_secret_id'
+  NAMESPACE_NAME: 'eventrim'
 on:
   workflow_dispatch:
     inputs:
@@ -50,3 +52,25 @@ jobs:
         with:
           resource-group: '${{ env.RESOURCE_GROUP }}' 
           cluster-name: '${{ env.CLUSTER_NAME }}'
+      - name: Setup kubectl
+        id: install-kubectl
+        uses: azure/setup-kubectl@v3
+      - name: Set imagePullSecret
+        uses: Azure/k8s-create-secret@v4
+        with:
+          namespace: ${{ env.NAMESPACE_NAME }}
+          container-registry-url: ${{ env.CONTAINER_REGISTRY }}
+          container-registry-username: ${{ secrets.CLIENTID }}
+          container-registry-password: ${{ secrets.CLIENTSECRET }} 
+          secret-name: ${{ env.REGISTRY_SECRET_NAME }}}
+        id: ${{ env.REGISTRY_SECRET_ID }}}
+      - name: Deploy to AKS
+        uses: Azure/k8s-deploy@v4
+        with:
+          namespace: 'default'
+          strategy: basic
+          action: deploy
+          manifests: |
+             deploy-simulation.yaml
+          images: '${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}'
+          
