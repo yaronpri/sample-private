@@ -55,12 +55,13 @@ jobs:
         id: install-kubectl
         uses: azure/setup-kubectl@v3
       - name: Set imagePullSecret
-        uses: Azure/k8s-create-secret@v4
-        with:        
+        uses: azure/k8s-create-secret@v4
+        with:
+          secret-name: 'contoso-cr'
           container-registry-url: ${{ env.CONTAINER_REGISTRY }}
           container-registry-username: ${{ secrets.CLIENTID }}
           container-registry-password: ${{ secrets.CLIENTSECRET }} 
-          secret-name: ${{ env.CLUSTER_REGISTRY_SECRET_NAME }}}
+        id: create-secret      
       - name: Deploy to AKS
         uses: Azure/k8s-deploy@v4
         with:
@@ -71,5 +72,5 @@ jobs:
           images: 
             '${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}'
           imagepullsecrets: |
-            ${{ env.CLUSTER_REGISTRY_SECRET_NAME }}}
+            'contoso-cr'
           
