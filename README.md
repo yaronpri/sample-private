@@ -37,12 +37,10 @@ az ad sp create-for-rbac \
     --sdk-auth
 ```
 
-Save the output of previous commadn as GtHub REPO secret name it: 'AZURE_CREDENTIALS' 
-### Get the ACR details
-   In GitHub repo Create the following secrets (go to -> 'settings -> secrets -> actions'):
-   - REGISTRY_LOGIN_SERVER -> from created Azure Container Registry copy the 'login server' URI
-   - REGISTRY_USERNAME -> from created Azure KeyVault get the value of the following secret: acradminusername
-   - REGISTRY_PASSWORD -> from created Azure KeyVault get the value of the following secret: acradminpassword
+Use the output of the command to create three new repo secrets:
+1. AZURE_CREDENTIALS - the entire json output
+2. CLIENTID - value of 'clientId' element
+3. CLIENTSECRET - value of 'clientSecret' element
+
 
 ### 
-   

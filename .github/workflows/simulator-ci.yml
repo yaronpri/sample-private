@@ -29,8 +29,8 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: ${{ env.CONTAINER_REGISTRY }}
-          username: ${{ secrets.AZURE_CREDENTIALS.clientId }}
-          password: ${{ secrets.AZURE_CREDENTIALS.clientSecret }} 
+          username: ${{ secrets.CLIENTID }}
+          password: ${{ secrets.CLIENTSECRET }} 
       - name: Azure login
         id: login
         uses: azure/login@v1.4.3
