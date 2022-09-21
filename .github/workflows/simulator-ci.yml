@@ -5,7 +5,7 @@ env:
   RESOURCE_GROUP: 'eventerim-rg'
   CLUSTER_NAME: 'eventerimaks'
   CONTAINER_REGISTRY: 'eventerimacr.azurecr.io'
-  CLUSTER_REGISTRY_SECRET_NAME: 'eventrim-registry-secret'
+  CLUSTER_REGISTRY_SECRET_NAME: 'registrysecret'
   NAMESPACE_NAME: 'eventrim'
 on:
   workflow_dispatch:
