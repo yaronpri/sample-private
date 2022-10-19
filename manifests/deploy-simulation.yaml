@@ -15,12 +15,12 @@ spec:
     spec:
       containers:
       - name: simulation-generator
-        image: eventerimacr.azurecr.io/simulation-generator:latest
+        image: eventerimacr.azurecr.io/simulationapp
         env:
         - name: BLOB_UPLOAD_URI
-          value: "3"
+          value: "https://eventerimstep1.blob.core.windows.net"
         - name: BLOB_UPLOAD_SAS
-          value: "2"
+          value: "sv=2015-04-05&ss=b&srt=sco&sp=rwdlacup&se=2023-10-19T10%3A28%3A41.0000000Z&spr=https&sig=j%2B1455smlmc%2BH7Bj0iJ16MLvg289E2gslqp0EzKq%2BBU%3D"
         - name: CONTAINER_NAME
           value: step1
         - name: REQUESTED_REQ_PER_SEC
@@ -28,6 +28,6 @@ spec:
         - name: REQUESTED_SIMULATOR_TIME_IN_SEC
           value: "1"
         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
-          value: "ec931919-5abd-4202-a58e-7367823d824c"
+          value: "d645c5ae-fe4f-40cd-9556-5f83e4fa505b"
       nodeSelector:
         "type": "simulator"

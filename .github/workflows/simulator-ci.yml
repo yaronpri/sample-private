@@ -68,7 +68,7 @@ jobs:
           strategy: basic
           action: deploy
           manifests: |
-            deploy-simulation.yaml
+            manifests/deploy-simulation.yaml
           images: 
             '${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}'
           imagepullsecrets: |
