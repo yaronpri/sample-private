@@ -71,7 +71,7 @@ jobs:
           manifests: |
             manifests/deploy-simulation.yaml
           images: |
-            '${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}'
+            ${{ env.CONTAINER_REGISTRY }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
           imagepullsecrets: |
             ${{ env.CLUSTER_REGISTRY_SECRET_NAME }}
           
