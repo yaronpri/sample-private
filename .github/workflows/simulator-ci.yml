@@ -1,7 +1,7 @@
 name: Simulation - CI process
 
 env:
-  PROJECT_NAME: 'simulation-generator'
+  PROJECT_NAME: 'simulationapp'
   RESOURCE_GROUP: 'eventerim-rg'
   CLUSTER_NAME: 'eventerimaks'
   CONTAINER_REGISTRY: 'eventerimacr.azurecr.io'
@@ -62,9 +62,10 @@ jobs:
           container-registry-username: ${{ secrets.CLIENTID }}
           container-registry-password: ${{ secrets.CLIENTSECRET }} 
         id: create-secret    
-      - name: Set imagePullSecret
-        uses: azure/k8s-create-secret@v4
+      - name: Set secrets
+        uses: azure/k8s-create-secret@v2
         with:
+          secret-type: 'generic'  
           secret-name: 'myappsecrets'          
           data: 'ZWM5MzE5MTktNWFiZC00MjAyLWE1OGUtNzM2NzgyM2Q4MjRj'          
       - name: Deploy to AKS
