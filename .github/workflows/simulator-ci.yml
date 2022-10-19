@@ -61,13 +61,7 @@ jobs:
           container-registry-url: ${{ env.CONTAINER_REGISTRY }}
           container-registry-username: ${{ secrets.CLIENTID }}
           container-registry-password: ${{ secrets.CLIENTSECRET }} 
-        id: create-secret    
-      - name: Set secrets
-        uses: azure/k8s-create-secret@v2
-        with:
-          secret-type: 'generic'  
-          secret-name: 'myappsecrets'          
-          data: 'ZWM5MzE5MTktNWFiZC00MjAyLWE1OGUtNzM2NzgyM2Q4MjRj'          
+        id: k8s-secret         
       - name: Deploy to AKS
         uses: Azure/k8s-deploy@v4
         with:
