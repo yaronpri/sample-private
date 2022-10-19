@@ -27,7 +27,7 @@ spec:
           value: "1"
         - name: REQUESTED_SIMULATOR_TIME_IN_SEC
           value: "1"
-        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+        - name: APPINSIGHTS_INSTRUMENTATIONKEY
           value: "d645c5ae-fe4f-40cd-9556-5f83e4fa505b"
       nodeSelector:
         "type": "simulator"

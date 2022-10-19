@@ -67,6 +67,7 @@ jobs:
         with:
           strategy: basic
           action: deploy
+          pull-images: false
           manifests: |
             manifests/deploy-simulation.yaml
           images: |
